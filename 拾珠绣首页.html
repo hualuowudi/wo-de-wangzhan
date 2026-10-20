@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拾珠绣 · 非遗珠绣手作商城</title>
+<meta name="description" content="拾珠绣 — 非遗传承人陈克忍校企合作，让千年珠绣技艺进入日常。">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=pilcrow-rounded@400,500,700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+<style>
+:root{
+  /* 绢米朱砂 - 品牌锁定配色 */
+  --bg:#f4f0e6;
+  --surface:#e8e0d0;
+  --plinth:#faf7f0;
+  --ink:#1a1a1a;
+  --muted:#6b5a3e;
+  --accent:#c0392b;
+  --accent-ink:#ffffff;
+  --gold:#b8902c;
+  --field-1:#c0392b;   /* 朱砂 */
+  --field-2:#e8e0d0;   /* 绢米稍深 */
+  --field-3:#b8902c;   /* 赤金 */
+  --field-4:#1a1a1a;   /* 墨 */
+  --sans:'Pilcrow Rounded','Noto Sans SC',sans-serif;
+  --step-small:clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body:clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead:clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head:clamp(2rem, 1.3rem + 3.2vw, 4rem);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:6px}
+::selection{background:var(--accent);color:var(--accent-ink)}
+
+/* ===== Topnav ===== */
+.topnav{
+  position:absolute;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px clamp(20px,4vw,56px);
+  background:var(--bg);
+}
+.nav-brand{
+  font-weight:700;font-size:1.5rem;letter-spacing:-0.04em;
+  color:var(--ink);cursor:pointer;
+}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:14px;color:var(--muted);cursor:pointer;letter-spacing:0.02em;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-action{
+  background:var(--ink);color:var(--bg);
+  font-size:14px;font-weight:500;
+  padding:10px 20px;
+  transition:background .2s ease,transform .15s ease;
+}
+.nav-action:hover{background:var(--accent)}
+.nav-action:active{transform:scale(.96)}
+section[id]{scroll-margin-top:72px}
+
+/* ===== Hero — 居中大标 + 三幅竖卡 ===== */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:112px 24px 56px;
+}
+.hero-wordmark{
+  position:absolute;top:40px;left:56px;
+  font-weight:700;font-size:var(--step-head);
+  letter-spacing:-0.05em;line-height:1;
+  color:var(--ink);
+}
+.hero-note{
+  position:absolute;top:52px;right:56px;
+  font-size:15px;max-width:36ch;
+  text-align:right;
+  color:var(--muted);
+  line-height:1.5;
+}
+.hero-headline{
+  text-align:center;
+  font-weight:700;
+  font-size:clamp(2.8rem,6.8vw,5.8rem);
+  line-height:1.06;
+  letter-spacing:-0.04em;
+  color:var(--ink);
+}
+/* 逐字拆分后每颗"珠子"：inline-block 让 transform 生效 */
+.hero-headline .ch{display:inline-block;will-change:transform,opacity;font-kerning:none}
+.hero-sub{
+  margin-top:20px;
+  max-width:52ch;text-align:center;
+  font-size:var(--step-body);
+  color:var(--muted);line-height:1.7;
+}
+.hero-actions{
+  margin-top:30px;
+  display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
+}
+.hero-btn{
+  padding:14px 30px;
+  font-weight:500;font-size:15px;
+  transition:background .2s ease,color .2s ease,transform .15s ease;
+}
+.hero-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.hero-btn.solid:hover{background:var(--ink)}
+.hero-btn.ghost{background:var(--plinth);color:var(--ink)}
+.hero-btn.ghost:hover{background:var(--ink);color:var(--bg)}
+.hero-btn:active{transform:scale(.96)}
+.hero-meta{
+  margin-top:24px;
+  font-size:12.5px;letter-spacing:.14em;
+  color:var(--muted);
+  display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center;
+}
+.hero-meta .dot{color:var(--gold)}
+.hero-cards{
+  margin-top:44px;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:16px;width:min(1080px,94vw);
+}
+.hero-card{
+  position:relative;
+  aspect-ratio:4/5;
+  overflow:hidden;
+  cursor:pointer;
+  background:var(--plinth);
+}
+.hero-card img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 1.2s ease, transform .6s ease;
+}
+.hero-card img.active{opacity:1}
+.hero-card:hover img.active{transform:scale(1.05)}
+.hero-card .hc-tag{
+  position:absolute;top:14px;left:14px;z-index:2;
+  background:var(--bg);color:var(--ink);
+  font-size:11px;letter-spacing:.2em;
+  padding:6px 12px;
+}
+.hero-card .hc-name{
+  position:absolute;left:14px;bottom:14px;z-index:2;
+  background:rgba(20,20,20,.72);color:#fff;
+  font-size:12px;font-weight:500;letter-spacing:.06em;
+  padding:6px 12px;
+}
+
+/* ===== Catalogue — specimen tiles ===== */
+.catalogue{
+  padding:140px clamp(20px,3vw,48px) 120px;
+  max-width:1440px;
+  margin:0 auto;
+}
+.cat-title{
+  font-weight:700;font-size:var(--step-head);
+  letter-spacing:-0.05em;line-height:0.95;
+  margin-bottom:16px;
+  color:var(--ink);
+}
+.cat-sub{
+  font-size:var(--step-body);
+  color:var(--muted);
+  margin-bottom:56px;
+  max-width:52ch;
+}
+.cat-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-auto-rows:280px;
+  grid-auto-flow:dense;
+  gap:12px;
+}
+.cat-item{
+  display:flex;flex-direction:column;gap:10px;
+  cursor:pointer;
+}
+.cat-item.double{grid-column:span 2;grid-row:span 2}
+.cat-tile{
+  flex:1;
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;
+  min-height:0;
+}
+.cat-tile img{
+  width:100%;height:100%;
+  object-fit:cover;
+  transition:opacity .3s ease;
+}
+.cat-item:hover .cat-tile img{opacity:.85}
+.field-1{background:var(--field-1)}
+.field-2{background:var(--field-2)}
+.field-3{background:var(--field-3)}
+.field-4{background:var(--field-4)}
+.cat-name{
+  font-weight:500;font-size:19px;
+  letter-spacing:-0.01em;
+  color:var(--ink);
+}
+.cat-fact{
+  display:block;
+  font-size:15px;
+  color:var(--muted);
+}
+.cat-item.cta-item .cat-tile{
+  background:var(--accent);
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-end;
+  padding:28px;
+  gap:12px;
+}
+.cat-item.cta-item .cta-head{
+  font-weight:700;font-size:26px;
+  letter-spacing:-0.03em;line-height:1.1;
+  color:var(--accent-ink);
+}
+.cat-item.cta-item .cta-go{
+  font-size:15px;font-weight:500;
+  color:var(--accent-ink);
+  border-bottom:2px solid var(--gold);
+  padding-bottom:2px;
+}
+
+/* ===== Craft — tiles that grow ===== */
+.craft{
+  padding:140px clamp(20px,3vw,48px);
+  max-width:1440px;
+  margin:0 auto;
+}
+.craft-row{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  grid-template-rows:auto 1fr;
+  column-gap:12px;
+  row-gap:56px;
+}
+.craft-title{
+  grid-column:5/13;
+  grid-row:1;
+  font-weight:700;font-size:var(--step-head);
+  letter-spacing:-0.05em;line-height:0.95;
+  color:var(--ink);
+  max-width:9ch;
+}
+.craft-cols{
+  grid-column:1/13;
+  grid-row:2;
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  column-gap:12px;
+  align-items:end;
+}
+.craft-col{display:flex;flex-direction:column;gap:14px}
+.craft-col.c1{grid-column:1/4}
+.craft-col.c2{grid-column:4/8}
+.craft-col.c3{grid-column:8/13}
+.craft-tile{
+  display:flex;align-items:center;justify-content:center;
+  padding:14px;
+  overflow:hidden;
+}
+.craft-tile img{width:100%;height:100%;object-fit:cover}
+.craft-col.c1 .craft-tile{height:30vh}
+.craft-col.c2 .craft-tile{height:44vh}
+.craft-col.c3 .craft-tile{height:60vh}
+.craft-col h3{
+  font-weight:500;font-size:20px;
+  letter-spacing:-0.01em;
+  color:var(--ink);
+}
+.craft-col p{
+  font-size:16px;line-height:1.55;
+  color:var(--muted);
+  max-width:38ch;
+}
+
+/* ===== Proof — the printed guest list ===== */
+.proof{
+  background:var(--field-4);
+  padding:120px 24px 0;
+  overflow:hidden;
+}
+.proof-card{
+  position:relative;
+  background:var(--plinth);
+  width:62%;
+  min-width:600px;
+  margin:0 auto;
+  padding:56px;
+  transform:rotate(-1.2deg);
+}
+.proof-card h2{
+  text-align:center;
+  font-weight:700;font-size:28px;
+  letter-spacing:-0.02em;
+  margin-bottom:20px;
+  color:var(--ink);
+}
+.proof-lead{
+  font-size:16px;line-height:1.7;color:var(--ink);
+  max-width:46ch;margin:0 auto 36px;text-align:center;
+}
+.proof-photo{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  margin-bottom:36px;
+}
+.proof-list{
+  list-style:none;padding:0;margin:0;
+  display:grid;grid-template-columns:1fr 1fr;gap:22px 28px;
+}
+.proof-list li{display:flex;flex-direction:column;gap:4px}
+.proof-list b{font-size:14px;font-weight:700;color:var(--ink);letter-spacing:0.02em}
+.proof-list span{font-size:13.5px;color:var(--muted);line-height:1.55}
+
+/* ===== CTA — the action tile ===== */
+.cta-band{
+  display:grid;
+  grid-template-columns:1fr 6fr 1fr;
+  gap:12px;
+  padding:120px 0 0;
+}
+.cta-tile{height:360px}
+.cta-tile.photo{padding:0;overflow:hidden}
+.cta-tile.photo img{width:100%;height:100%;object-fit:cover}
+.cta-tile.flat{background:var(--field-2)}
+.cta-tile.center{
+  background:var(--accent);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:40px 48px;
+  gap:20px;
+}
+.cta-tile.center h2{
+  font-weight:700;font-size:40px;
+  letter-spacing:-0.04em;line-height:1.05;
+  color:var(--accent-ink);
+  max-width:12ch;
+}
+.cta-tile.center p{
+  font-size:17px;line-height:1.55;
+  color:var(--accent-ink);
+  opacity:.9;
+  max-width:40ch;
+}
+.cta-tile.center .cta-btn{
+  align-self:flex-start;
+  background:var(--plinth);color:var(--ink);
+  font-weight:500;font-size:15px;
+  padding:14px 32px;
+  transition:background .2s ease, transform .15s ease;
+}
+.cta-tile.center .cta-btn:hover{background:var(--gold);color:var(--accent-ink)}
+.cta-tile.center .cta-btn:active{transform:scale(.95)}
+
+/* ===== Footer — the back of the card ===== */
+.footer{
+  background:var(--field-4);
+  padding:80px 0 0;
+  overflow:hidden;
+}
+.footer-card{
+  position:relative;
+  background:var(--plinth);
+  margin:0 auto;
+  width:84%;
+  min-height:420px;
+  padding:64px 72px 32px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+}
+.footer-scallops{
+  position:absolute;
+  top:-39px;left:0;
+  width:100%;height:40px;
+  display:block;
+}
+.footer-sign{
+  font-weight:700;font-size:32px;
+  letter-spacing:-0.03em;
+  margin-bottom:20px;
+  color:var(--ink);
+}
+.footer-msg{
+  font-size:16px;line-height:1.6;
+  color:var(--muted);
+  max-width:32ch;
+}
+.footer-right{
+  position:relative;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  gap:12px;
+  padding-bottom:24px;
+}
+.stamp{
+  position:absolute;top:-8px;right:0;
+  width:88px;aspect-ratio:3/4;
+  object-fit:cover;
+  padding:6px;
+  background:var(--bg);
+}
+.footer-links{display:flex;flex-direction:column;gap:12px}
+.footer-links a{
+  font-size:18px;
+  color:var(--ink);
+  width:fit-content;
+  transition:color .2s ease;
+}
+.footer-links a:hover{color:var(--accent)}
+.footer-imprint{
+  grid-column:1/-1;
+  text-align:center;
+  font-size:13px;
+  color:var(--muted);
+  padding-top:24px;
+}
+
+/* ===== 购物袋浮标 ===== */
+.cart-fab{
+  position:fixed;bottom:24px;right:24px;z-index:2500;
+  width:52px;height:52px;
+  background:var(--accent);color:var(--accent-ink);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 20px rgba(26,26,26,.28);
+  transition:transform .2s ease;
+}
+.cart-fab:hover{transform:translateY(-2px)}
+.cart-fab:active{transform:scale(.92)}
+.cart-icon{width:24px;height:24px}
+.cart-count{
+  position:absolute;top:-4px;right:-4px;
+  background:var(--ink);color:var(--accent-ink);
+  min-width:22px;height:22px;
+  border-radius:11px;
+  font-size:11px;font-weight:500;
+  padding:0 6px;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;
+  transform:scale(.95);
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1), opacity .2s ease;
+}
+.cart-count.show{opacity:1;transform:scale(1)}
+.cart-count.bump{animation:cartBump .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes cartBump{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.45)}
+  100%{transform:scale(1)}
+}
+
+/* ===== Modal / Drawer / Checkout ===== */
+.modal-mask{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(26,26,26,.55);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .3s ease, visibility 0s linear .3s;
+}
+.modal-mask.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .3s ease, visibility 0s}
+.pd-modal{
+  position:fixed;top:50%;left:50%;z-index:2001;
+  background:var(--bg);
+  width:100%;max-width:920px;
+  max-height:88vh;
+  overflow:auto;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transform:translate(-50%,-50%) scale(.92);
+  transition:opacity .35s ease, transform .35s cubic-bezier(.16,1,.3,1), visibility 0s linear .35s;
+}
+.pd-modal.open{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,-50%) scale(1);transition:opacity .35s ease, transform .35s cubic-bezier(.16,1,.3,1), visibility 0s}
+.modal-close{
+  position:absolute;top:16px;right:16px;z-index:5;
+  width:40px;height:40px;
+  background:var(--ink);color:var(--accent-ink);
+  border-radius:50%;
+  font-size:24px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+}
+.modal-close:hover{background:var(--accent)}
+.pd-grid{display:grid;grid-template-columns:1fr 1fr}
+.pd-gallery{
+  position:relative;
+  background:var(--surface);
+  aspect-ratio:1/1;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.pd-main-img{
+  position:relative;width:100%;
+  flex:1;min-height:0;
+  overflow:hidden;
+}
+.pd-main-img .slide{
+  position:absolute;inset:0;
+  opacity:0;transition:opacity .4s ease;
+}
+.pd-main-img .slide.active{opacity:1}
+.pd-main-img .slide img{width:100%;height:100%;object-fit:cover}
+.pd-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:40px;height:40px;
+  background:rgba(26,26,26,.6);color:var(--accent-ink);
+  border-radius:50%;
+  font-size:24px;
+  display:flex;align-items:center;justify-content:center;
+}
+.pd-nav.prev{left:16px}
+.pd-nav.next{right:16px}
+.pd-nav:hover{background:var(--accent)}
+.pd-counter{
+  position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+  background:rgba(26,26,26,.7);color:var(--accent-ink);
+  font-size:12px;padding:4px 12px;border-radius:11px;
+}
+.pd-thumbsbar{
+  flex:0 0 auto;
+  display:flex;align-items:center;gap:4px;
+  padding:10px 12px;
+}
+.tb-nav{
+  flex:0 0 auto;
+  width:26px;height:48px;
+  background:none;color:var(--ink);
+  font-size:22px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  transition:color .2s ease;
+}
+.tb-nav:hover{color:var(--accent)}
+.pd-thumbs{
+  position:relative;
+  flex:1;min-width:0;
+  display:flex;gap:8px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  scrollbar-width:none;
+  cursor:grab;
+  padding:2px;
+}
+.pd-thumbs::-webkit-scrollbar{display:none}
+.pd-thumbs.dragging{cursor:grabbing;scroll-behavior:auto}
+.pd-thumb{
+  flex:0 0 48px;
+  width:48px;height:48px;
+  border:2px solid transparent;
+  cursor:pointer;overflow:hidden;
+}
+.pd-thumb.active{border-color:var(--accent)}
+.pd-thumb img{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.pd-info{
+  padding:48px 40px;
+  display:flex;flex-direction:column;gap:20px;
+  align-self:start;
+}
+.pd-name{
+  font-weight:700;font-size:clamp(28px,3vw,40px);
+  letter-spacing:-0.03em;line-height:1.0;
+}
+.pd-price{font-weight:500;font-size:28px;color:var(--accent)}
+.pd-desc{font-size:16px;line-height:1.6}
+.pd-spec h4{
+  font-weight:700;font-size:18px;
+  margin-bottom:16px;
+}
+.pd-spec-row{
+  display:grid;grid-template-columns:120px 1fr;gap:16px;
+  padding:12px 0;
+  font-size:14px;
+}
+.pd-spec-row .k{color:var(--muted);font-weight:500}
+.pd-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.btn-cta{
+  padding:14px 20px;
+  font-weight:500;font-size:14px;
+  transition:transform .15s ease, background .2s ease;
+}
+.btn-cta:active{transform:scale(.88)}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{background:var(--ink)}
+.btn-outline{background:var(--surface);color:var(--ink)}
+.btn-outline:hover{background:var(--ink);color:var(--bg)}
+
+.drawer-mask{
+  position:fixed;inset:0;z-index:1500;
+  background:rgba(26,26,26,.4);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .3s ease, visibility 0s linear .3s;
+}
+.drawer-mask.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .3s ease, visibility 0s}
+.cart-drawer{
+  position:fixed;top:0;right:0;bottom:0;
+  width:min(420px,90vw);
+  background:var(--bg);
+  z-index:1501;
+  transform:translateX(100%);
+  transition:transform .35s cubic-bezier(.16,1,.3,1);
+  display:flex;flex-direction:column;
+}
+.cart-drawer.open{transform:translateX(0)}
+.cart-drawer header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 24px;
+}
+.cart-drawer header h3{font-weight:700;font-size:22px}
+.cart-drawer header button{
+  width:32px;height:32px;font-size:22px;
+  background:var(--ink);color:var(--accent-ink);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.cart-body{flex:1;overflow-y:auto;padding:24px}
+.cart-empty{
+  text-align:center;color:var(--muted);
+  padding:60px 0;font-size:15px;line-height:1.6;
+}
+.cart-item{
+  display:grid;grid-template-columns:72px 1fr auto;gap:12px;
+  padding:12px 0;
+  align-items:center;
+}
+.cart-item-img{width:72px;height:72px;background:var(--surface);overflow:hidden}
+.cart-item-img img{width:100%;height:100%;object-fit:cover}
+.cart-item-info{display:flex;flex-direction:column;gap:4px}
+.cart-item-name{font-weight:700;font-size:15px}
+.cart-item-price{font-size:13px;color:var(--muted)}
+.cart-qty{display:flex;align-items:center;gap:8px;font-size:14px}
+.cart-qty button{
+  width:24px;height:24px;background:var(--surface);
+  display:flex;align-items:center;justify-content:center;
+}
+.cart-qty button:hover{background:var(--accent);color:var(--accent-ink)}
+.cart-foot{padding:20px 24px}
+.cart-total{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:16px;font-weight:700;
+}
+.cart-total span:first-child{font-size:14px;color:var(--muted);font-weight:400}
+.cart-total span:last-child{font-size:24px;color:var(--accent)}
+.cart-checkout{
+  width:100%;padding:14px;
+  background:var(--accent);color:var(--accent-ink);
+  font-weight:500;font-size:15px;
+  margin-bottom:8px;
+}
+.cart-checkout:hover{background:var(--ink)}
+.cart-clear{width:100%;padding:10px;font-size:13px;color:var(--muted)}
+.cart-clear:hover{color:var(--accent)}
+
+.checkout-modal{
+  background:var(--bg);
+  width:100%;max-width:560px;
+  max-height:88vh;overflow:auto;
+  padding:48px 40px;
+  position:relative;
+}
+.step-form,.step-success{display:none}
+.step-form.active,.step-success.active{display:block}
+.checkout-modal h3{font-weight:700;font-size:28px;margin-bottom:24px}
+.order-summary{background:var(--surface);padding:20px;margin-bottom:32px}
+.order-summary h4{font-weight:700;font-size:15px;margin-bottom:12px;color:var(--muted)}
+.order-summary-row{
+  display:flex;justify-content:space-between;
+  font-size:14px;padding:6px 0;
+}
+.order-summary-row.total{
+  margin-top:12px;padding-top:12px;
+  font-weight:700;font-size:16px;
+}
+.order-summary-row.total span:last-child{color:var(--accent)}
+.checkout-modal input,
+.checkout-modal textarea{
+  width:100%;padding:12px 16px;
+  background:var(--surface);
+  border:1px solid transparent;
+  font-family:var(--sans);font-size:15px;
+  margin-bottom:12px;resize:vertical;
+}
+.checkout-modal input:focus,
+.checkout-modal textarea:focus{outline:none;border-color:var(--accent)}
+.checkout-modal textarea{min-height:80px}
+#orderSubmit{
+  width:100%;padding:14px;
+  background:var(--accent);color:var(--accent-ink);
+  font-weight:500;font-size:15px;margin-top:8px;
+}
+#orderSubmit:hover{background:var(--ink)}
+.demo-note{font-size:13px;color:var(--muted);margin-top:12px;text-align:center}
+.step-success{text-align:center;padding:40px 0}
+.step-success h3{margin-bottom:24px}
+.step-success p{font-size:16px;margin-bottom:8px}
+#successClose{
+  margin-top:32px;padding:12px 32px;
+  background:var(--ink);color:var(--accent-ink);
+  font-weight:500;font-size:14px;
+}
+#successClose:hover{background:var(--accent)}
+
+.fly-img{
+  position:fixed;z-index:3000;
+  border-radius:50%;overflow:hidden;
+  pointer-events:none;
+}
+.fly-img img{width:100%;height:100%;object-fit:cover}
+
+/* ===== Phone ===== */
+@media (max-width:900px){
+  .hero-wordmark{top:24px;left:20px;font-size:2.2rem}
+  .hero-note{
+    position:absolute;top:76px;left:20px;
+    text-align:left;max-width:30ch;
+    margin:0;font-size:13px;
+  }
+  .hero{padding:150px 20px 48px}
+  .nav-links{display:none}
+  .nav-action{display:none}
+  .hero-headline{font-size:clamp(2.2rem,9.5vw,3.4rem)}
+  .hero-sub{font-size:14px}
+  .hero-cards{gap:10px;margin-top:36px}
+  .hero-card .hc-name{font-size:12px}
+  .hero-btn{width:100%;max-width:300px;text-align:center}
+  .catalogue{padding:88px 20px}
+  .cat-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:200px}
+  .cat-name{font-size:16px}
+  .cat-fact{font-size:13px}
+  .craft{padding:88px 20px}
+  .craft-row{row-gap:32px}
+  .craft-title{grid-column:1/13;max-width:100%}
+  .craft-cols{grid-template-columns:1fr;row-gap:28px;align-items:stretch}
+  .craft-col.c1,.craft-col.c2,.craft-col.c3{grid-column:1/-1}
+  .craft-col.c1 .craft-tile{height:34vw}
+  .craft-col.c2 .craft-tile{height:46vw}
+  .craft-col.c3 .craft-tile{height:62vw}
+  .proof{padding:88px 16px 0}
+  .proof-card{width:92%;min-width:0;padding:28px;transform:rotate(-1deg)}
+  .proof-card h2{font-size:22px}
+  .proof-list{grid-template-columns:1fr}
+  .proof-names{font-size:17px}
+  .cta-band{
+    grid-template-columns:1fr;
+    padding:88px 20px 0;
+  }
+  .cta-tile{height:auto}
+  .cta-tile.center{min-height:300px;padding:32px 24px;gap:16px}
+  .cta-tile.center h2{font-size:28px}
+  .cta-tile.photo,.cta-tile.flat{height:120px}
+  .footer-card{
+    width:100%;min-height:0;
+    padding:48px 24px 24px;
+    grid-template-columns:1fr;gap:32px;
+  }
+  .footer-sign{font-size:24px}
+  .stamp{width:64px;top:-32px}
+  .footer-links a{font-size:17px}
+  .pd-grid{grid-template-columns:1fr}
+  .pd-info{padding:32px 24px}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-card img{transition:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Topnav ===== -->
+<nav class="topnav" id="topnav">
+  <a class="nav-brand" data-scroll="hero">拾珠绣</a>
+  <div class="nav-links">
+    <a data-scroll="catalogue">七款手作</a>
+    <a data-scroll="craft">工艺</a>
+    <a data-scroll="proof">监制</a>
+    <a data-scroll="cta">定制</a>
+  </div>
+  <button class="nav-action" data-scroll="cta">定制咨询</button>
+</nav>
+
+<!-- ===== Hero：居中大标 + 三幅竖卡 ===== -->
+<section class="hero" id="hero">
+  <h1 class="hero-headline">千年珠绣<br>戴在身上</h1>
+  <p class="hero-sub">拾珠绣与非遗传承人陈克忍合作，把唐宋礼器上的珠绣图样，做成新手 3 小时也能完成的材料包与团队手作成品。</p>
+  <div class="hero-actions">
+    <button class="hero-btn solid" data-scroll="catalogue">浏览七款手作</button>
+    <button class="hero-btn ghost" data-scroll="cta">定制款咨询</button>
+  </div>
+  <p class="hero-meta">
+    <span>七款手作</span><span class="dot">·</span>
+    <span>陈克忍监制</span><span class="dot">·</span>
+    <span>材料包约 3 小时完成</span>
+  </p>
+  <div class="hero-cards" id="heroCards">
+    <figure class="hero-card" data-name="鲤鱼挂件材料包">
+      <figcaption class="hc-tag">材料包</figcaption>
+      <span class="hc-name">鲤鱼挂件材料包 ¥58</span>
+    </figure>
+    <figure class="hero-card" data-name="手工胸针">
+      <figcaption class="hc-tag">成品</figcaption>
+      <span class="hc-name">手工胸针 ¥136</span>
+    </figure>
+    <figure class="hero-card" data-name="珠绣挂饰">
+      <figcaption class="hc-tag">挂件</figcaption>
+      <span class="hc-name">珠绣挂饰 ¥68</span>
+    </figure>
+  </div>
+</section>
+
+<!-- ===== Catalogue：标本图鉴 ===== -->
+<section class="catalogue" id="catalogue">
+  <h2 class="cat-title">七款手作</h2>
+  <p class="cat-sub">每件都按图鉴陈列：同样的尺度，同样的角度，标注名称与价格。材料包含图文教程，成品由陈克忍团队手作。</p>
+  <div class="cat-grid" id="catGrid"></div>
+</section>
+
+<!-- ===== Craft：tiles that grow ===== -->
+<section class="craft" id="craft">
+  <div class="craft-row">
+    <h2 class="craft-title">从绢底到礼器</h2>
+    <div class="craft-cols">
+      <div class="craft-col c1">
+        <div class="craft-tile field-2">
+          <img src="商品图/手机、车载挂件/珠绣挂件详细解释.jpg" alt="描图：图样落于绢底" loading="lazy">
+        </div>
+        <h3>描图</h3>
+        <p>把传统图样落墨于绢面，朱砂一线起，金线随之而行。</p>
+      </div>
+      <div class="craft-col c2">
+        <div class="craft-tile field-3">
+          <img src="商品图/胸针/3366952c08e752ae20a2caf38790caed.jpg" alt="缀珠：一针一颗" loading="lazy">
+        </div>
+        <h3>缀珠</h3>
+        <p>一针一颗，米珠与亮片按传统图样落位。一件胸针约需八百颗。</p>
+      </div>
+      <div class="craft-col c3">
+        <div class="craft-tile field-1">
+          <img src="商品图/包包/珠绣包包.jpg" alt="成幅：一件礼器" loading="lazy">
+        </div>
+        <h3>成幅</h3>
+        <p>收针、装裱、配以托底或穗子，一件礼器就此成形。成品手作约两日。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Proof：印刷名单卡 ===== -->
+<section class="proof" id="proof">
+  <div class="proof-card">
+    <h2>监制与背书</h2>
+    <p class="proof-lead">陈克忍，非遗珠绣传承人。拾珠绣与之合作，把唐宋礼器上的珠绣图样，做成可日常拥有、可亲手完成的手作。</p>
+    <img class="proof-photo" src="商品图/包包/珠绣包包详情1.jpg" alt="陈克忍团队手作" loading="lazy">
+    <ul class="proof-list">
+      <li><b>非遗传承人</b><span>陈克忍监制，针法配色皆有所承</span></li>
+      <li><b>校企合作</b><span>与院校共建珠绣工作坊，技艺可传可学</span></li>
+      <li><b>成品周期</b><span>团队手作约两日成幅</span></li>
+      <li><b>材料包</b><span>含绢底米珠绣线图样与图文教程</span></li>
+      <li><b>定制流程</b><span>微信沟通图样，约一周到手</span></li>
+      <li><b>工艺溯源</b><span>图样取自唐宋礼器纹样</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== CTA：action tile ===== -->
+<section class="cta-band" id="cta">
+  <div class="cta-tile photo">
+    <img src="商品图/手机、车载挂件/611a5bd5300e0e89131a696e6ba9c11b.jpg" alt="珠绣挂件" loading="lazy">
+  </div>
+  <div class="cta-tile center">
+    <h2>想要专属定制</h2>
+    <p>扫码加微信，陈克忍团队出第一轮报价，约一周到手。</p>
+    <button class="cta-btn" id="contactSubmit">出第一轮报价</button>
+  </div>
+  <div class="cta-tile flat"></div>
+</section>
+
+<!-- ===== Footer：明信片背面 ===== -->
+<footer class="footer">
+  <div class="footer-card">
+    <svg class="footer-scallops" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 40 A 50 40 0 0 1 100 40 A 50 40 0 0 1 200 40 A 50 40 0 0 1 300 40 A 50 40 0 0 1 400 40 A 50 40 0 0 1 500 40 A 50 40 0 0 1 600 40 A 50 40 0 0 1 700 40 A 50 40 0 0 1 800 40 A 50 40 0 0 1 900 40 A 50 40 0 0 1 1000 40 A 50 40 0 0 1 1100 40 A 50 40 0 0 1 1200 40 Z" fill="#faf7f0"/>
+    </svg>
+    <div class="footer-left">
+      <p class="footer-sign">拾珠绣，见珠如晤。</p>
+      <p class="footer-msg">每一件手作都从一卷绢底开始，约一周到你的手里。</p>
+    </div>
+    <div class="footer-right">
+      <img class="stamp" src="商品图/胸针/珠绣胸针.png" alt="珠绣胸针" loading="lazy">
+      <div class="footer-links">
+        <a href="#catalogue">七款手作</a>
+        <a href="#craft">工艺</a>
+        <a href="#cta">微信定制</a>
+        <a href="#hero">回到顶部</a>
+      </div>
+    </div>
+    <p class="footer-imprint">© 2026 拾珠绣 · 非遗珠绣手作 · 路演演示</p>
+  </div>
+</footer>
+
+<!-- ===== 购物袋浮标 ===== -->
+<button class="cart-fab" id="cartBadge" aria-label="购物袋">
+  <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <path d="M16 10a4 4 0 0 1-8 0"/>
+  </svg>
+  <span class="cart-count" id="cartCount">0</span>
+</button>
+
+<!-- ===== 购物袋抽屉 ===== -->
+<div class="drawer-mask" id="cartMask"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <header>
+    <h3>购物袋</h3>
+    <button id="cartClose" aria-label="关闭">×</button>
+  </header>
+  <div class="cart-body" id="cartBody"></div>
+  <footer class="cart-foot" id="cartFoot" style="display:none">
+    <div class="cart-total">
+      <span>合计</span>
+      <span>¥<span id="cartTotal">0</span></span>
+    </div>
+    <button class="cart-checkout" id="cartCheckout">去结算</button>
+    <button class="cart-clear" id="cartClear">清空购物袋</button>
+  </footer>
+</aside>
+
+<!-- ===== 商品详情 Modal ===== -->
+<div class="modal-mask" id="pdMask"></div>
+<div class="pd-modal" id="pdModal"></div>
+
+<!-- ===== 结算 Modal ===== -->
+<div class="modal-mask" id="checkoutMask">
+  <div class="checkout-modal">
+    <button class="modal-close" id="checkoutClose" aria-label="关闭">×</button>
+    <div class="step-form active" id="stepForm">
+      <h3>收货信息</h3>
+      <div class="order-summary" id="orderSummary"></div>
+      <input id="oName" type="text" placeholder="姓名">
+      <input id="oPhone" type="tel" placeholder="电话">
+      <textarea id="oAddr" placeholder="收货地址"></textarea>
+      <button id="orderSubmit">提交订单</button>
+      <p class="demo-note">路演演示 · 不真实下单 · 不真实收款</p>
+    </div>
+    <div class="step-success" id="stepSuccess">
+      <h3>下单成功</h3>
+      <p>订单号：DEMO-<span id="orderNo"></span></p>
+      <p>路演演示 · 未真实下单 · 未真实收款</p>
+      <button id="successClose">完成</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== 商品数据 ===== */
+const products = {
+  '珠绣包包': {
+    name:'珠绣包包', price:188, badge:'成品',
+    images:[
+      '商品图/包包/珠绣包包.jpg',
+      '商品图/包包/珠绣包包详情1.jpg',
+      '商品图/包包/珠绣包包详情2.jpg',
+      '商品图/包包/珠绣包包详情3.jpg',
+      '商品图/包包/珠绣包包详情4.jpg'
+    ],
+    desc:'珠片与米珠手缝于绢面，金色描边映衬东方礼器轮廓。手作约 2 日，可作通勤小物或节庆礼赠之选。',
+    spec:[
+      {k:'材质', v:'绢底 · 米珠 · 亮片 · 金属配件'},
+      {k:'尺寸', v:'约 22×14cm'},
+      {k:'工艺', v:'选料 → 描图 → 缀珠 → 成幅'},
+      {k:'制作周期', v:'手作约 2 日'},
+      {k:'配件', v:'可定制礼盒包装 [待补充]'}
+    ]
+  },
+  '手工胸针': {
+    name:'手工胸针', price:136, badge:'成品',
+    images:[
+      '商品图/胸针/珠绣胸针.png',
+      '商品图/胸针/珠绣胸针详情1.jpg',
+      '商品图/胸针/珠绣胸针详情2.png',
+      '商品图/胸针/珠绣胸针详情3.png',
+      '商品图/胸针/珠绣胸针详情4.png',
+      '商品图/胸针/2748c4179f9e514c64c626c17ffdc96e.jpg',
+      '商品图/胸针/3366952c08e752ae20a2caf38790caed.jpg',
+      '商品图/胸针/376e61bc8532861eb3bc65cac619322d.jpg',
+      '商品图/胸针/3fbb535db5f6b40af02f02d1a71fc9bf.png',
+      '商品图/胸针/689e34ac77ac6b3c4daef30b34cc1667.jpg',
+      '商品图/胸针/779bcd596e65edc5cf8b047b0bba2487.png',
+      '商品图/胸针/84eaf4bec1e8a55461ce7effc39b59c3.jpg',
+      '商品图/胸针/b801e6d071be206138fdbdd25127880d.jpg',
+      '商品图/胸针/dcfc5785be7e85a75d056561880494da.png',
+      '商品图/胸针/f613f9171736c25103ecab0416b5502c.jpg'
+    ],
+    desc:'传统珠绣针法缀于金属托底，可作胸针佩戴。一件成品约需 800 颗米珠，工艺繁复而节奏温柔。',
+    spec:[
+      {k:'材质', v:'绢底 · 米珠 · 亮片 · 金属托底'},
+      {k:'尺寸', v:'约 5×4cm'},
+      {k:'工艺', v:'选料 → 描图 → 缀珠 → 成幅'},
+      {k:'米珠用量', v:'约 800 颗/件'},
+      {k:'佩戴', v:'胸针佩戴'}
+    ]
+  },
+  '鲤鱼挂件材料包': {
+    name:'鲤鱼挂件材料包', price:58, badge:'材料包',
+    images:[
+      '商品图/手机、车载挂件/鲤鱼挂件材料包.jpg',
+      '商品图/手机、车载挂件/珠绣挂件详细解释.jpg',
+      '商品图/手机、车载挂件/611a5bd5300e0e89131a696e6ba9c11b.jpg',
+      '商品图/手机、车载挂件/6229fe90eb6eb26a731d00e4dd9e4012.jpg',
+      '商品图/手机、车载挂件/8156ad35946aa67b67aff2faa8fbd6d5.png',
+      '商品图/手机、车载挂件/8339b3207c391321a1594bc97daf09b7.jpg',
+      '商品图/手机、车载挂件/8ddcee6212df3be734bb6fca10f57778.png',
+      '商品图/手机、车载挂件/964bb3a8cb8318f4abe19d7b8b75aa08.jpg',
+      '商品图/手机、车载挂件/bff499fa5539dbf7d32d5130d73a5f5b.jpg',
+      '商品图/手机、车载挂件/c572d3cf5db7e417ba13c83dbffb80eb.png',
+      '商品图/手机、车载挂件/ee81538d3ceeb664be67808408e83c8c.jpg'
+    ],
+    desc:'内含绢底、米珠、亮片、绣线与图样，附详细图文教程。新手约 3 小时即可完成专属鲤鱼挂件。',
+    spec:[
+      {k:'内容', v:'绢底 · 米珠 · 亮片 · 绣线 · 图样 · 教程'},
+      {k:'成品尺寸', v:'约 12cm'},
+      {k:'难度', v:'入门级 · 含图文教程'},
+      {k:'用时', v:'约 3 小时'},
+      {k:'适合', v:'新手 · 亲子 · 国潮手作爱好者'}
+    ]
+  },
+  '珠绣挂饰': {
+    name:'珠绣挂饰', price:68, badge:'成品',
+    images:[
+      '商品图/手机、车载挂件/珠绣挂饰.jpg',
+      '商品图/手机、车载挂件/珠绣挂件.png',
+      '商品图/手机、车载挂件/611a5bd5300e0e89131a696e6ba9c11b.jpg',
+      '商品图/手机、车载挂件/6229fe90eb6eb26a731d00e4dd9e4012.jpg',
+      '商品图/手机、车载挂件/8156ad35946aa67b67aff2faa8fbd6d5.png',
+      '商品图/手机、车载挂件/8339b3207c391321a1594bc97daf09b7.jpg',
+      '商品图/手机、车载挂件/8ddcee6212df3be734bb6fca10f57778.png',
+      '商品图/手机、车载挂件/964bb3a8cb8318f4abe19d7b8b75aa08.jpg',
+      '商品图/手机、车载挂件/bff499fa5539dbf7d32d5130d73a5f5b.jpg',
+      '商品图/手机、车载挂件/c572d3cf5db7e417ba13c83dbffb80eb.png',
+      '商品图/手机、车载挂件/ee81538d3ceeb664be67808408e83c8c.jpg'
+    ],
+    desc:'手机或车载挂件，朱砂红与米白珠相间，穗长可调。寓意平安，出行佩戴尤佳。',
+    spec:[
+      {k:'材质', v:'绢底 · 米珠 · 亮片 · 穗'},
+      {k:'尺寸', v:'约 8×4cm + 穗'},
+      {k:'工艺', v:'选料 → 描图 → 缀珠 → 成幅'},
+      {k:'穗长', v:'可调'},
+      {k:'用途', v:'手机挂件 · 车载挂件 · 包包装饰'}
+    ]
+  },
+  '珠绣发卡': {
+    name:'珠绣发卡', price:58, badge:'成品',
+    images:[
+      '商品图/发卡/珠绣发卡.jpg',
+      '商品图/发卡/珠绣发卡详情1.png',
+      '商品图/发卡/珠绣发卡详情2.png',
+      '商品图/发卡/珠绣发卡详情3.png',
+      '商品图/发卡/珠绣发卡详情4.png',
+      '商品图/发卡/珠绣发卡详情5.png'
+    ],
+    desc:'舞狮图样珠绣于金属发卡，节庆佩戴尤佳。一件约 200 颗米珠，红白配色喜庆而不张扬。',
+    spec:[
+      {k:'材质', v:'绢底 · 米珠 · 亮片 · 金属发卡'},
+      {k:'尺寸', v:'约 6×4cm'},
+      {k:'工艺', v:'选料 → 描图 → 缀珠 → 成幅'},
+      {k:'米珠用量', v:'约 200 颗/件'},
+      {k:'佩戴', v:'发卡佩戴 · 节庆尤佳'}
+    ]
+  },
+  '发卡材料包': {
+    name:'发卡材料包', price:38, badge:'材料包',
+    images:[
+      '商品图/发卡/珠绣发卡材料包.jpg',
+      '商品图/发卡/珠绣发卡材料包详情1.jpg',
+      '商品图/发卡/珠绣发卡材料包详情2.jpg',
+      '商品图/发卡/珠绣发卡材料包详情3.jpg',
+      '商品图/发卡/65baddb0930917c0dae2ef3d07d1ad77.png',
+      '商品图/发卡/ba8878a210fc8dabe70a782bc540cf90.jpg'
+    ],
+    desc:'入门级 DIY 体验，含图样、米珠、绣线、发卡底。约 1.5 小时完成，适合亲子或新手。',
+    spec:[
+      {k:'内容', v:'图样 · 米珠 · 绣线 · 发卡底'},
+      {k:'成品尺寸', v:'约 5cm'},
+      {k:'难度', v:'入门级 · 含图文教程'},
+      {k:'用时', v:'约 1.5 小时'},
+      {k:'适合', v:'亲子 · 新手 · 手作初体验'}
+    ]
+  },
+  '珠绣冰箱贴': {
+    name:'珠绣冰箱贴', price:68, badge:'成品',
+    images:[],
+    desc:'珠绣小品附磁吸底座，可贴于冰箱或办公柜。图案随季节更替，案头一抹温柔。',
+    spec:[
+      {k:'材质', v:'绢底 · 米珠 · 亮片 · 磁吸底座'},
+      {k:'尺寸', v:'约 6×6cm'},
+      {k:'工艺', v:'选料 → 描图 → 缀珠 → 成幅'},
+      {k:'用途', v:'冰箱 · 办公柜 · 案头点缀'},
+      {k:'图样', v:'随季节更替 [图待补充]'}
+    ]
+  }
+};
+
+function placeholderSvg(name){
+  return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<rect width="100" height="100" fill="#e8e0d0"/>'+
+    '<circle cx="50" cy="50" r="20" fill="#c0392b" opacity="0.3"/>'+
+    '<text x="50" y="80" text-anchor="middle" font-size="7" fill="#6b5a3e" font-family="sans-serif">'+name+'</text>'+
+    '</svg>';
+}
+
+/* ===== Catalogue 渲染：7 款标本 + 1 定制 tile ===== */
+const catalogueOrder = [
+  {name:'鲤鱼挂件材料包', field:'field-2', fact:'¥58 · 新手约 3 小时完成'},
+  {name:'发卡材料包',     field:'field-3', fact:'¥38 · 约 1.5 小时完成'},
+  {name:'手工胸针',       field:'field-1', fact:'¥136 · 约 800 颗米珠', double:true},
+  {name:'珠绣发卡',       field:'field-4', fact:'¥58 · 舞狮图样'},
+  {name:'珠绣包包',       field:'field-2', fact:'¥188 · 手作约 2 日'},
+  {name:'珠绣挂饰',       field:'field-3', fact:'¥68 · 穗长可调'},
+  {name:'珠绣冰箱贴',     field:'field-2', fact:'¥68 · 图样随季节更替'}
+];
+const catGrid = document.getElementById('catGrid');
+catalogueOrder.forEach(item => {
+  const p = products[item.name];
+  const hasImg = p.images && p.images.length > 0;
+  const img = hasImg
+    ? '<img src="'+p.images[0]+'" alt="'+p.name+'" loading="lazy">'
+    : placeholderSvg(p.name);
+  const el = document.createElement('figure');
+  el.className = 'cat-item' + (item.double ? ' double' : '');
+  el.dataset.name = item.name;
+  el.innerHTML =
+    '<div class="cat-tile '+item.field+'">'+img+'</div>'+
+    '<figcaption>'+
+      '<span class="cat-name">'+p.name+'</span>'+
+      '<span class="cat-fact">'+item.fact+'</span>'+
+    '</figcaption>';
+  catGrid.appendChild(el);
+});
+/* 定制 CTA tile */
+const ctaItem = document.createElement('figure');
+ctaItem.className = 'cat-item cta-item';
+ctaItem.innerHTML =
+  '<div class="cat-tile">'+
+    '<span class="cta-head">想要专属定制</span>'+
+    '<span class="cta-go">加微信出报价 →</span>'+
+  '</div>';
+ctaItem.addEventListener('click', () => {
+  document.getElementById('cta').scrollIntoView({behavior:'smooth'});
+});
+catGrid.appendChild(ctaItem);
+
+/* ===== Live thing：三幅竖卡图片栈错峰 crossfade ===== */
+(function(){
+  const stacks = [
+    ['商品图/手机、车载挂件/鲤鱼挂件材料包.jpg','商品图/发卡/珠绣发卡材料包.jpg'],
+    ['商品图/胸针/珠绣胸针.png','商品图/包包/珠绣包包.jpg','商品图/发卡/珠绣发卡.jpg'],
+    ['商品图/手机、车载挂件/611a5bd5300e0e89131a696e6ba9c11b.jpg','商品图/手机、车载挂件/珠绣挂件.png']
+  ];
+  const cards = document.querySelectorAll('#heroCards .hero-card');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const indices = [0, 0, 0];
+  cards.forEach((card, c) => {
+    stacks[c].forEach((src, i) => {
+      const im = document.createElement('img');
+      im.src = src;
+      im.alt = '';
+      if (i > 0) im.loading = 'lazy';
+      if (i === 0) im.classList.add('active');
+      card.insertBefore(im, card.firstChild);
+    });
+  });
+  if (reducedMotion) return;
+  let timer = null;
+  function tick(){
+    cards.forEach((card, c) => {
+      if (stacks[c].length < 2) return;
+      const imgs = card.querySelectorAll('img');
+      indices[c] = (indices[c] + 1) % stacks[c].length;
+      imgs.forEach((im, i) => im.classList.toggle('active', i === indices[c]));
+    });
+  }
+  function play(){
+    if (timer) return;
+    timer = setInterval(tick, 4200);
+  }
+  function stop(){ if (timer) { clearInterval(timer); timer = null; } }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop(); else play();
+  });
+  play();
+})();
+
+/* ===== Motion：入场层 ===== */
+window.addEventListener('load', () => {
+  if (!window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if (reducedMotion) return;
+
+  /* Hero 标题逐字落定：把"千年珠绣/戴在身上"每字拆成 span，像珠子逐颗缀上绢底 */
+  const heroH = document.querySelector('.hero-headline');
+  if (heroH) {
+    const rawText = heroH.textContent;
+    heroH.setAttribute('aria-label', rawText);
+    const frag = document.createDocumentFragment();
+    const chars = [];
+    heroH.childNodes.forEach(node => {
+      if (node.nodeType === 3) {
+        [...node.textContent].forEach(c => {
+          const s = document.createElement('span');
+          s.className = 'ch'; s.setAttribute('aria-hidden','true'); s.textContent = c;
+          frag.appendChild(s); chars.push(s);
+        });
+      } else if (node.nodeName === 'BR') {
+        frag.appendChild(document.createElement('br'));
+      }
+    });
+    heroH.textContent = '';
+    heroH.appendChild(frag);
+    gsap.from(chars, {y:64, opacity:0, rotate:7, duration:0.95, ease:'power4.out', stagger:0.06, delay:0.12});
+  }
+  gsap.from('.hero-sub, .hero-actions, .hero-meta', {y:26, opacity:0, duration:0.8, ease:'power2.out', stagger:0.09, delay:0.65});
+  gsap.from('.hero-card', {y:32, opacity:0, duration:0.9, ease:'power2.out', stagger:0.1, delay:0.3});
+  gsap.utils.toArray('.cat-title, .cat-sub').forEach(el => {
+    gsap.from(el, {y:32, opacity:0, duration:0.8, ease:'power2.out',
+      scrollTrigger:{trigger:el, start:'top 85%'}});
+  });
+  ScrollTrigger.batch('.cat-item', {
+    start:'top 88%',
+    onEnter: batch => gsap.from(batch, {y:28, opacity:0, duration:0.7, ease:'power2.out', stagger:0.07})
+  });
+  /* craft-title 入场 */
+  gsap.from('.craft-title', {y:36, opacity:0, duration:0.9, ease:'power2.out',
+    scrollTrigger:{trigger:'.craft-title', start:'top 85%'}});
+  /* 工艺三步随滚动依次亮起：初始 dim，滚动经过时逐颗"缀上"绢底，呼应珠绣逐颗缀珠 */
+  const craftCols = gsap.utils.toArray('.craft-col');
+  if (craftCols.length){
+    gsap.set(craftCols, {opacity:0.25, scale:0.97});
+    const craftTl = gsap.timeline({
+      scrollTrigger:{trigger:'.craft-cols', start:'top 72%', end:'bottom 78%', scrub:0.6}
+    });
+    craftCols.forEach(col => {
+      craftTl.to(col, {opacity:1, scale:1, duration:1, ease:'power2.out'});
+    });
+  }
+  gsap.from('.proof-card', {y:48, opacity:0, duration:1, ease:'power2.out',
+    scrollTrigger:{trigger:'.proof', start:'top 70%'}});
+  gsap.from('.cta-tile.center', {y:36, opacity:0, duration:0.9, ease:'power2.out',
+    scrollTrigger:{trigger:'.cta-band', start:'top 75%'}});
+  /* moving picture：proof 照片缓慢缩放 */
+  gsap.to('.proof-photo', {scale:1.06, ease:'none',
+    scrollTrigger:{trigger:'.proof', start:'top bottom', end:'bottom top', scrub:true}});
+});
+
+/* ===== 全局状态：购物袋+详情+结算 ===== */
+const cart = {};
+const cartMask = document.getElementById('cartMask');
+const cartDrawer = document.getElementById('cartDrawer');
+const cartBody = document.getElementById('cartBody');
+const cartFoot = document.getElementById('cartFoot');
+const cartTotal = document.getElementById('cartTotal');
+const cartFab = document.getElementById('cartBadge');
+const cartCount = document.getElementById('cartCount');
+const pdMask = document.getElementById('pdMask');
+const pdModal = document.getElementById('pdModal');
+const checkoutMask = document.getElementById('checkoutMask');
+const stepForm = document.getElementById('stepForm');
+const stepSuccess = document.getElementById('stepSuccess');
+const orderSummary = document.getElementById('orderSummary');
+let pdState = { name: null, index: 0 };
+
+function updateCartCount(){
+  const total = Object.values(cart).reduce((s,n)=>s+n,0);
+  cartCount.textContent = total;
+  cartCount.classList.toggle('show', total > 0);
+}
+function bumpCart(){
+  cartCount.classList.remove('bump');
+  void cartCount.offsetWidth;
+  cartCount.classList.add('bump');
+}
+function flyToCart(srcEl, imgSrc){
+  if (!srcEl) { bumpCart(); return; }
+  const srcRect = srcEl.getBoundingClientRect();
+  const fabRect = cartFab.getBoundingClientRect();
+  const fly = document.createElement('img');
+  fly.className = 'fly-img';
+  fly.src = imgSrc || ('data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#e8e0d0"/><circle cx="50" cy="50" r="20" fill="#c0392b" opacity="0.3"/></svg>'));
+  fly.style.width = '72px';
+  fly.style.height = '72px';
+  fly.style.left = (srcRect.left + srcRect.width/2 - 36) + 'px';
+  fly.style.top = (srcRect.top + srcRect.height/2 - 36) + 'px';
+  document.body.appendChild(fly);
+  const startX = srcRect.left + srcRect.width/2;
+  const startY = srcRect.top + srcRect.height/2;
+  const endX = fabRect.left + fabRect.width/2;
+  const endY = fabRect.top + fabRect.height/2;
+  const ctrlX = (startX + endX)/2;
+  const ctrlY = Math.min(startY, endY) - 120;
+  const duration = 700;
+  const t0 = performance.now();
+  function tick(now){
+    let t = (now - t0) / duration;
+    if (t > 1) t = 1;
+    const x = (1-t)*(1-t)*startX + 2*(1-t)*t*ctrlX + t*t*endX;
+    const y = (1-t)*(1-t)*startY + 2*(1-t)*t*ctrlY + t*t*endY;
+    fly.style.left = (x - 36) + 'px';
+    fly.style.top = (y - 36) + 'px';
+    fly.style.transform = 'scale(' + (1 - 0.55*t) + ') rotate(' + (t*200) + 'deg)';
+    fly.style.opacity = (1 - 0.65*t);
+    if (t < 1) requestAnimationFrame(tick);
+    else { fly.remove(); bumpCart(); }
+  }
+  requestAnimationFrame(tick);
+}
+function addToCart(name, flyOriginEl){
+  cart[name] = (cart[name] || 0) + 1;
+  updateCartCount();
+  const p = products[name];
+  const imgSrc = (p && p.images && p.images.length > 0) ? p.images[0] : null;
+  flyToCart(flyOriginEl, imgSrc);
+}
+function openCart(){
+  renderCart();
+  cartMask.classList.add('open');
+  cartDrawer.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart(){
+  cartMask.classList.remove('open');
+  cartDrawer.classList.remove('open');
+  if (!pdMask.classList.contains('open') && !checkoutMask.classList.contains('open')) {
+    document.body.style.overflow = '';
+  }
+}
+function renderCart(){
+  const keys = Object.keys(cart);
+  if (keys.length === 0) {
+    cartBody.innerHTML = '<div class="cart-empty">购物袋是空的<br>挑几件喜欢的吧</div>';
+    cartFoot.style.display = 'none';
+    return;
+  }
+  cartFoot.style.display = 'block';
+  let total = 0;
+  cartBody.innerHTML = keys.map(name => {
+    const p = products[name];
+    const qty = cart[name];
+    const sub = p.price * qty;
+    total += sub;
+    const imgSrc = (p.images && p.images.length > 0) ? p.images[0] : null;
+    const img = imgSrc ? '<img src="'+imgSrc+'" alt="'+name+'">' : placeholderSvg(name);
+    return '<div class="cart-item">'+
+      '<div class="cart-item-img">'+img+'</div>'+
+      '<div class="cart-item-info">'+
+        '<span class="cart-item-name">'+name+'</span>'+
+        '<span class="cart-item-price">¥'+p.price+'</span>'+
+        '<div class="cart-qty">'+
+          '<button data-qty="'+name+'" data-d="-1">−</button>'+
+          '<span>'+qty+'</span>'+
+          '<button data-qty="'+name+'" data-d="1">+</button>'+
+        '</div>'+
+      '</div>'+
+      '<div style="font-weight:500;color:var(--accent);font-size:15px;align-self:center">¥'+sub+'</div>'+
+    '</div>';
+  }).join('');
+  cartTotal.textContent = total;
+}
+function openProductDetail(name){
+  const p = products[name];
+  if (!p) return;
+  pdState = { name: name, index: 0 };
+  const hasImgs = p.images && p.images.length > 0;
+  let mainImgs, thumbs;
+  if (hasImgs) {
+    mainImgs = p.images.map((src, i) =>
+      '<img class="slide'+(i===0?' active':'')+'" src="'+src+'" alt="'+p.name+' '+(i+1)+'">'
+    ).join('');
+    thumbs = p.images.map((src, i) =>
+      '<div class="pd-thumb'+(i===0?' active':'')+'" data-i="'+i+'"><img src="'+src+'" alt="" loading="lazy"></div>'
+    ).join('');
+  } else {
+    mainImgs = '<div class="slide active">'+placeholderSvg(p.name)+'</div>';
+    thumbs = '';
+  }
+  const specRows = p.spec.map(s =>
+    '<div class="pd-spec-row"><span class="k">'+s.k+'</span><span class="v">'+s.v+'</span></div>'
+  ).join('');
+  pdModal.innerHTML =
+    '<button class="modal-close" id="pdClose">×</button>'+
+    '<div class="pd-grid">'+
+      '<div class="pd-gallery">'+
+        '<div class="pd-main-img">'+mainImgs+
+          (hasImgs ? '<button class="pd-nav prev" id="pdPrev">‹</button><button class="pd-nav next" id="pdNext">›</button><div class="pd-counter" id="pdCounter">1 / '+p.images.length+'</div>' : '')+
+        '</div>'+
+        (hasImgs ? '<div class="pd-thumbsbar"><button class="tb-nav" id="tbPrev">‹</button><div class="pd-thumbs" id="pdThumbs">'+thumbs+'</div><button class="tb-nav" id="tbNext">›</button></div>' : '')+
+      '</div>'+
+      '<div class="pd-info">'+
+        '<h3 class="pd-name">'+p.name+'</h3>'+
+        '<p class="pd-price">¥'+p.price+'</p>'+
+        '<p class="pd-desc">'+p.desc+'</p>'+
+        '<div class="pd-spec"><h4>产品规格</h4>'+specRows+'</div>'+
+        '<div class="pd-actions">'+
+          '<button class="btn-cta btn-primary" id="pdAdd">加入购物袋</button>'+
+          '<button class="btn-cta btn-outline" id="pdCustom">定制咨询</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  pdMask.classList.add('open');
+  pdModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('pdClose').addEventListener('click', closeProductDetail);
+  if (hasImgs) {
+    document.getElementById('pdPrev').addEventListener('click', () => switchPdSlide(-1));
+    document.getElementById('pdNext').addEventListener('click', () => switchPdSlide(1));
+    const tb = document.getElementById('pdThumbs');
+    document.getElementById('tbPrev').addEventListener('click', () => tb.scrollBy({left:-280, behavior:'smooth'}));
+    document.getElementById('tbNext').addEventListener('click', () => tb.scrollBy({left:280, behavior:'smooth'}));
+    /* 缩略图点击切换：直接绑定到每个 thumb，确保点击可靠 */
+    tb.querySelectorAll('.pd-thumb').forEach(t => {
+      t.addEventListener('click', () => {
+        if (didDrag) { didDrag = false; return; }
+        setPdSlide(parseInt(t.dataset.i));
+      });
+    });
+    /* 按住拖拽滑动缩略图条（不用 setPointerCapture，改用 document 监听，确保 click 不被吞） */
+    let dragStartX = 0, dragStartScroll = 0, didDrag = false, isDragging = false;
+    tb.addEventListener('pointerdown', e => {
+      dragStartX = e.clientX; dragStartScroll = tb.scrollLeft; didDrag = false; isDragging = true;
+      tb.classList.add('dragging');
+    });
+    document.addEventListener('pointermove', e => {
+      if (!isDragging) return;
+      const dx = e.clientX - dragStartX;
+      if (Math.abs(dx) > 4) didDrag = true;
+      tb.scrollLeft = dragStartScroll - dx;
+    });
+    document.addEventListener('pointerup', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      tb.classList.remove('dragging');
+    });
+  }
+  document.getElementById('pdAdd').addEventListener('click', e => {
+    addToCart(p.name, e.currentTarget);
+  });
+  document.getElementById('pdCustom').addEventListener('click', () => {
+    closeProductDetail();
+    setTimeout(() => document.getElementById('cta').scrollIntoView({behavior:'smooth'}), 380);
+  });
+}
+function setPdSlide(i){
+  const p = products[pdState.name];
+  if (!p || !p.images || !p.images.length) return;
+  pdState.index = Math.max(0, Math.min(p.images.length - 1, i));
+  const slides = pdModal.querySelectorAll('.pd-main-img .slide');
+  const thumbs = pdModal.querySelectorAll('.pd-thumb');
+  slides.forEach((s, idx) => s.classList.toggle('active', idx === pdState.index));
+  thumbs.forEach((t, idx) => t.classList.toggle('active', idx === pdState.index));
+  pdModal.querySelector('#pdCounter').textContent = (pdState.index + 1) + ' / ' + p.images.length;
+  /* 选中的缩略图自动滚到条带中间 */
+  const track = pdModal.querySelector('#pdThumbs');
+  const act = thumbs[pdState.index];
+  if (track && act) {
+    track.scrollTo({left: act.offsetLeft - (track.clientWidth - act.offsetWidth) / 2, behavior:'smooth'});
+  }
+}
+function switchPdSlide(delta){
+  const p = products[pdState.name];
+  if (!p || !p.images || !p.images.length) return;
+  let next = pdState.index + delta;
+  if (next < 0) next = p.images.length - 1;
+  if (next >= p.images.length) next = 0;
+  setPdSlide(next);
+}
+function closeProductDetail(){
+  pdMask.classList.remove('open');
+  pdModal.classList.remove('open');
+  if (!cartDrawer.classList.contains('open') && !checkoutMask.classList.contains('open')) {
+    document.body.style.overflow = '';
+  }
+}
+function openCheckout(){
+  const keys = Object.keys(cart);
+  if (keys.length === 0) return;
+  let total = 0;
+  const rows = keys.map(name => {
+    const p = products[name];
+    const qty = cart[name];
+    const sub = p.price * qty;
+    total += sub;
+    return '<div class="order-summary-row"><span>'+name+' × '+qty+'</span><span>¥'+sub+'</span></div>';
+  }).join('');
+  orderSummary.innerHTML = '<h4>订单摘要</h4>'+rows+
+    '<div class="order-summary-row total"><span>合计</span><span>¥'+total+'</span></div>';
+  stepForm.classList.add('active');
+  stepSuccess.classList.remove('active');
+  checkoutMask.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  closeCart();
+}
+function closeCheckout(){
+  const wasSuccess = stepSuccess.classList.contains('active');
+  checkoutMask.classList.remove('open');
+  if (wasSuccess) {
+    Object.keys(cart).forEach(k => delete cart[k]);
+    updateCartCount();
+    stepSuccess.classList.remove('active');
+    stepForm.classList.add('active');
+  }
+  if (!cartDrawer.classList.contains('open') && !pdMask.classList.contains('open')) {
+    document.body.style.overflow = '';
+  }
+}
+
+/* ===== 事件绑定 ===== */
+cartBody.addEventListener('click', e => {
+  const b = e.target.closest('[data-qty]');
+  if (!b) return;
+  const name = b.dataset.qty;
+  cart[name] = (cart[name] || 0) + parseInt(b.dataset.d);
+  if (cart[name] <= 0) delete cart[name];
+  updateCartCount();
+  renderCart();
+});
+document.getElementById('cartClear').addEventListener('click', () => {
+  Object.keys(cart).forEach(k => delete cart[k]);
+  updateCartCount();
+  renderCart();
+});
+cartFab.addEventListener('click', openCart);
+document.getElementById('cartClose').addEventListener('click', closeCart);
+cartMask.addEventListener('click', closeCart);
+pdMask.addEventListener('click', e => { if (e.target === pdMask) closeProductDetail(); });
+
+/* 图鉴 tile 点击 → 详情 */
+catGrid.addEventListener('click', e => {
+  const item = e.target.closest('.cat-item');
+  if (!item || item.classList.contains('cta-item')) return;
+  const name = item.dataset.name;
+  if (name) openProductDetail(name);
+});
+
+/* Hero 三卡点击 → 直接打开对应商品详情 */
+document.querySelectorAll('#heroCards .hero-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const name = card.dataset.name;
+    if (name) openProductDetail(name);
+  });
+});
+
+/* data-scroll 跳转 */
+document.querySelectorAll('[data-scroll]').forEach(el => {
+  el.addEventListener('click', () => {
+    const dest = document.getElementById(el.dataset.scroll);
+    if (dest) dest.scrollIntoView({behavior:'smooth'});
+  });
+});
+
+document.getElementById('contactSubmit').addEventListener('click', () => {
+  alert('路演演示：扫码加微信后由陈克忍团队出第一轮报价');
+});
+document.getElementById('cartCheckout').addEventListener('click', openCheckout);
+document.getElementById('checkoutClose').addEventListener('click', closeCheckout);
+document.getElementById('successClose').addEventListener('click', closeCheckout);
+checkoutMask.addEventListener('click', e => { if (e.target === checkoutMask) closeCheckout(); });
+document.getElementById('orderSubmit').addEventListener('click', () => {
+  const name = document.getElementById('oName').value.trim();
+  const phone = document.getElementById('oPhone').value.trim();
+  const addr = document.getElementById('oAddr').value.trim();
+  if (!name || !phone || !addr) {
+    alert('请填写完整收货信息');
+    return;
+  }
+  document.getElementById('orderNo').textContent = Date.now().toString().slice(-8);
+  stepForm.classList.remove('active');
+  stepSuccess.classList.add('active');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeProductDetail();
+    closeCart();
+    closeCheckout();
+  }
+});
+</script>
+
+</body>
+</html>

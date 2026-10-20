@@ -1,0 +1,11 @@
+# 项目配置/缓存（不上传）
+.workbuddy/
+.taste-skill/
+
+# 快捷方式文件（商品图夹里的 .lnk）
+*.lnk
+
+# 系统/编辑器文件
+.DS_Store
+Thumbs.db
+*.swp
